@@ -1,7 +1,7 @@
 public class Particle
 {
-    private double velocity;
-    private double position;
+    private Array<double> velocity;
+    private Array<double> position;
     private double personalBest;
     
     public Particle(double v, double p) {
@@ -10,5 +10,28 @@ public class Particle
         position = p;
         
     }
+
+    public void setVel(Array<double> velComps)
+    {
+
+    }
+
+    public void setPos(Array<double> posCoords)
+    {
+
+    }
+
+    public Array<double> getVel(){
+    	return velocity;
+    }
+
+   	public Array<double> getPos(){
+   		return position;
+    }
+
+    public setPBest(double pbest){
+    	
+    }
+
     
 }
