@@ -34,7 +34,7 @@ public class PSO
 			s.update();
 		}
 
-		double t = -1000 * (startTime - System.CurrentTimeMillis());
+		double t = (System.CurrentTimeMillis() - startTime)/1000;
 
 		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal());
 
