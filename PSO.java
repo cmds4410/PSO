@@ -7,61 +7,37 @@ import java.text.*;
 
 public class PSO
 {
-
-	Array<Particle> population = new Array<Particle>;
-	public static int FUNCTION;
-	public static String FILENAME;
-	public static int dimensions;
+	public static String NEIGHBORHOOD_TOPOLOGY;
+	public static String INCLUDE_SELF;
+	public static String INFLUENCE_STRUCTURE;
+	public static String SWARM_SIZE;
+	public static String NUM_ITER;
+	public static String FUNCTION;
+	public static int DIMENSIONS;
   
 	public static void main(String args[]){
-		FUNCTION = args[0];
-		FILENAME = args[1];
-		dimensions = args[2];
+		NEIGHBORHOOD_TOPOLOGY = args[0];
+		INCLUDE_SELF = args[1];
+		INFLUENCE_STRUCTURE = args[2];
+		SWARM_SIZE = args[3];
+		NUM_ITER = args[4];
+		FUNCTION = args[5];
+		DIMENSIONS = args[6];
+
+		double startTime = System.CurrentTimeMillis();
+
+		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS);
+
 		randomizeParticles();
-		for(i:population){
-			updateParticle(i);
-			
-			//updateVelocity(i);'
-			
-			//updatePosition(i);
-			getValueForPosition(i.getPos());
-			updatePersonalBest(i);
-			updateGlobalBest();
+
+		for(i:NUM_ITER){
+			s.update();
 		}
+
+		double t = -1000 * (startTime - System.CurrentTimeMillis());
+
+		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal());
+
+		System.out.println("Time to completion: " + t + "sec");
 	}
-
-	public void randomizeParticles()
-	{
-
-	}
-
-	public void updateVelocity(Particle p)
-	{
-		newVelocity = new double[dimensions];
-		p.setVel(newVelocity);
-	}
-
-	public void updatePosition(Particle p)
-	{
-		p.setPos();
-	}
-
-	public void updatePersonalBest(Particle p)
-	{
-		p.setPBest();
-	}
-
-	public void updateGlobalBest()
-	{
-
-	}
-
-	private double evalParticleWithFunction(Particle p){
-		switch(FUNCTION):
-		{
-
-
-		}
-	}
-
 }
