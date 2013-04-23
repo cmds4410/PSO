@@ -6,28 +6,44 @@ public class Particle
 	
     private Array<double> velocity;
 	private Array<double> position; 
+    private Array<double> pBestPos;
+	
     private double personalBest;
-
-	private Array<double> pBestPos;
-	private double currentFitness;
     
 	private Random rand = new Random();
 
-    public Particle(double v, double p) {
+    private Array<Particle> myNeighbors;
 
-        velocity = v;
-        position = p;
+    public Particle(Array<double> v, Array<double> p) {
+
+        try {
+            velocity = v;
+            position = p;
+        } catch (Exception* e) {
+            System.out.println("Error: Sudden change in dimensionality.");
+            System.exit(0);
+        }
         
     }
 
     public void setVel(Array<double> velComps)
     {
-		velocity = velComps;
+        try {
+            velocity = velComps;
+        } catch (Exception* e) {
+            System.out.println("Error: Sudden change in dimensionality.");
+            System.exit(0);
+        }
     }
 
     public void setPos(Array<double> posCoords)
-    {
-		position = posCoords;
+    {	
+        try {
+            position = posCoords;
+        } catch (Exception* e) {
+            System.out.println("Error: Sudden change in dimensionality.");
+            System.exit(0);
+        }
     }
 
     public Array<double> getVel(){
@@ -38,9 +54,22 @@ public class Particle
    		return position;
     }
 
-    public setPBest(double pbest){
+    public void setPBest(double pbest){
     	personalBest = pbest;
     }
 
-    
+    public void addNeighbor(Particle p){
+        myNeighbors.add(p);
+    }
+
+    //NOTE: "being neighbors," under this logic, does NOT have to be a "two-way street."
+    public Bool isNeighborOf(Particle p){
+        if(Arrays.asList(myNeighbors).contains(p))
+            return true;
+        else return false;
+    }
+
+    public Array<Particle> getNeighborhood(){
+        return myNeighbors;
+    }
 }
