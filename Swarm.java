@@ -68,8 +68,29 @@ public class Swarm
 	public void update(){
 		
 		for(int i=0; i<self.size; i++){
-			particles[i].
+			Array<double> currVel = particles[i].getVel();
+			Array<double> currPos = particles[i].getPos();
 			
+			
+			double randPhi1 = rand.nextDouble()*ph1;
+			
+			accToPBest = new Array<double>;
+			accToGbest = new Array<double>;
+			newVel = new Array<double>;
+			newPos = new Array<double>;
+			Array<double> oldVel = particles[i].getVel();
+			Array<double> oldPos = particles[i].getPos();
+			
+			// loop through dimensions
+			for (int j = 0 ; j < self.dimensions; j++){
+				accTowardPBest[i] = randPhi1 * particles[i].getPBestPos();
+				accTowardGbest[i] = randPhi2 * particles[i].getNBestPos(); //need getneighborhood best position method
+				newVel[i] = (oldVel[i] + accToPBest[i] + accToGBest[i]) * constrictionFactor;
+				newPos[i] = (oldPos[i] + newVel[i]);
+			}
+			
+			particles[i].setVel(newVel);
+			particles[i].setPos(newPos);
 		}
 	}
 	
