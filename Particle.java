@@ -6,9 +6,11 @@ public class Particle
 	
     private Array<double> velocity;
 	private Array<double> position; 
-    private Array<double> pBestPos;
+    private Array<int> pBestPos;
 	
     private double personalBest;
+    private double neighborhoodBest;
+    private double currValue;
     
 	private Random rand = new Random();
 
@@ -54,12 +56,39 @@ public class Particle
    		return position;
     }
 
+    public Array<int> setPBestPos(Array<int> a){
+        pBestPos = a;
+    }
+
+    public void getPBestPos(){
+        return pBestPos;
+    }
+
     public void setPBest(double pbest){
     	personalBest = pbest;
     }
 
+    public double getPBest(){
+        return personalBest;
+    }
+
     public void addNeighbor(Particle p){
         myNeighbors.add(p);
+    }
+
+    public void removeNeighbor(Particle p){
+        myNeighbors.remove(p);
+    }
+
+    public double getNBest(){
+        return neighborhoodBest;
+    }
+
+    public void updateNBest(){
+        for(p:myNeighbors){
+            if(p.getVal() < neighborhoodBest)
+                neighborhoodBest = p.getVal();
+        }
     }
 
     //NOTE: "being neighbors," under this logic, does NOT have to be a "two-way street."
@@ -71,5 +100,13 @@ public class Particle
 
     public Array<Particle> getNeighborhood(){
         return myNeighbors;
+    }
+
+    public double getVal(){
+        return currValue;
+    }
+
+    public void setVal(double val){
+        currVal = val;
     }
 }
