@@ -72,5 +72,36 @@ public class Swarm
 			
 		}
 	}
+
+	public Array<int> updateLocalBest(Particle p){
+		Array<int> weightedPositionSum;
+		Array<double> weightedValueSum;
+		for(neighbor:p.getNeighborhood()){
+			//weight "neighbor"'s position with its value
+			//add that to the position sum
+			//add its value to the weightedValueSum
+		}
+		return weightedPositionSum/weightedValueSum;
+		//I know you can't just divide Arrays, but bear with me.
+	}
+
+	//what happens in this function depends on specific implementations of the topologies,
+	//which I don't think it's appropriate for us to do in a "sketch."
+	//It'll probably involve Particle's .addNeighbor(Particle) and .removeNeighbor(Particle) methods, though.
+	public void updateNeighborhood(Particle p){
+		switch(topology){
+			case "van_neumann":
+				//stuff
+				break;
+			case "ring":
+				//stuff
+				break; 
+			case "random":
+				/stuff
+				break;
+		}
+		if(includeSelf)
+			p.addNeighbor(p);
+	}
 	
 }
