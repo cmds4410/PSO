@@ -30,6 +30,12 @@ public class Swarm
 	
 	private Array<Particle> particles;
 	
+	
+	private double phi1 = phi2 = 2.05;
+  	private double phi = phi1 + phi2;
+  	public   double constrictionFactor = 2.0 / (phi - 2.0 + Math.sqrt(phi*phi - 4.0*phi));
+  //public double constrictionFactor = 0.7298;
+	
 	private Random rand = new Random();
 	
 	public Swarm(String topology, String includeSelf, String influenceStructure, int swarmSize, String function, int dimensions) {
@@ -70,10 +76,7 @@ public class Swarm
 		for(int i=0; i<self.size; i++){
 			Array<double> currVel = particles[i].getVel();
 			Array<double> currPos = particles[i].getPos();
-			
-			
-			double randPhi1 = rand.nextDouble()*ph1;
-			
+						
 			accToPBest = new Array<double>;
 			accToGbest = new Array<double>;
 			newVel = new Array<double>;
@@ -81,15 +84,19 @@ public class Swarm
 			Array<double> oldVel = particles[i].getVel();
 			Array<double> oldPos = particles[i].getPos();
 			
-			// loop through dimensions
+			// loop through dimensions, calculate and update velocity and position
 			for (int j = 0 ; j < self.dimensions; j++){
+				
+				double randPhi1 = rand.nextDouble()*phi1;
+				double randPhi2 = rand.nextDouble()*phi2;
 				accTowardPBest[i] = randPhi1 * particles[i].getPBestPos();
-				accTowardGbest[i] = randPhi2 * particles[i].getNBestPos(); //need getneighborhood best position method
-				newVel[i] = (oldVel[i] + accToPBest[i] + accToGBest[i]) * constrictionFactor;
+				accTowardNbest[i] = randPhi2 * particles[i].getNBestPos();
+				
+				newVel[i] = (oldVel[i] + accToPBest[i] + accToNBest[i]) * constrictionFactor;
 				newPos[i] = (oldPos[i] + newVel[i]);
 			}
 			
-			particles[i].setVel(newVel);
+			particles[i].setVelpos(newVel, newPos);
 			particles[i].setPos(newPos);
 		}
 	}

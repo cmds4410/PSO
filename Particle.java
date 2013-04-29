@@ -28,19 +28,10 @@ public class Particle
         
     }
 
-    public void setVel(Array<double> velComps)
+    public void setVelPos(Array<double> velComps, Array<double> posCoords)
     {
         try {
             velocity = velComps;
-        } catch (Exception* e) {
-            System.out.println("Error: Sudden change in dimensionality.");
-            System.exit(0);
-        }
-    }
-
-    public void setPos(Array<double> posCoords)
-    {	
-        try {
             position = posCoords;
         } catch (Exception* e) {
             System.out.println("Error: Sudden change in dimensionality.");
