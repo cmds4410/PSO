@@ -24,12 +24,13 @@ public class PSO
 		FUNCTION = args[5];
 		DIMENSIONS = args[6];
 
+		//time the program's execution
 		double startTime = System.CurrentTimeMillis();
 
+		//create and randomize all of the individuals in the swarm, using params specified on command line
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS);
 
-		randomizeParticles();
-
+		//actually run the algorithm
 		for(i:NUM_ITER){
 			s.update();
 		}

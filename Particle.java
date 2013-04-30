@@ -22,23 +22,38 @@ public class Particle
             velocity = v;
             position = p;
         } catch (Exception* e) {
+            //catch an error resulting from passing less velocity/position components than expected
             System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
         
     }
-
-    public void setVelPos(Array<double> velComps, Array<double> posCoords)
+    
+    //setter for the velocities 
+    public void setVel(Array<double> velComps)
     {
         try {
             velocity = velComps;
-            position = posCoords;
+
         } catch (Exception* e) {
             System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
     }
+    
+    //setter for the positions
+    public void setPos(Array<double> posCoords)
+      {
+          try {
+              position = posCoords;
 
+          } catch (Exception* e) {
+              System.out.println("Error: Sudden change in dimensionality.");
+              System.exit(0);
+          }
+      }
+                
+      
     public Array<double> getVel(){
     	return velocity;
     }
@@ -47,7 +62,8 @@ public class Particle
    		return position;
     }
 
-    public Array<int> setPBestPos(Array<int> a){
+    //set the personal best position
+    public Array<int> setPBestPos(Array<double> a){
         pBestPos = a;
     }
 
