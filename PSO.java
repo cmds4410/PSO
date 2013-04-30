@@ -3,8 +3,6 @@ import java.io.*;
 import java.lang.*;
 import java.text.*;
 
-
-
 public class PSO
 {
 	public static String NEIGHBORHOOD_TOPOLOGY;
@@ -16,6 +14,14 @@ public class PSO
 	public static int DIMENSIONS;
   
 	public static void main(String args[]){
+	    
+	    // check if user entered incorrect args
+	    if(args.length != 7)
+            {
+                System.out.println("Incorrect args!");
+                System.exit(0);
+            }
+	    
 		NEIGHBORHOOD_TOPOLOGY = args[0];
 		INCLUDE_SELF = args[1];
 		INFLUENCE_STRUCTURE = args[2];
@@ -23,6 +29,8 @@ public class PSO
 		NUM_ITER = args[4];
 		FUNCTION = args[5];
 		DIMENSIONS = args[6];
+		
+		System.exit(0);
 
 		//time the program's execution
 		double startTime = System.CurrentTimeMillis();
@@ -31,10 +39,11 @@ public class PSO
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS);
 
 		//actually run the algorithm
-		for(i:NUM_ITER){
+		/*
+		for(int i : NUM_ITER){
 			s.update();
 		}
-
+        */
 		double t = (System.CurrentTimeMillis() - startTime)/1000;
 
 		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal());

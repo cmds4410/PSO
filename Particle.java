@@ -1,9 +1,8 @@
-import java.Math*;
+import java.lang.Math.*;
 import java.util.*;
 
 public class Particle
 {	
-	
     private Array<double> velocity;
 	private Array<double> position; 
     private Array<int> pBestPos;
@@ -21,7 +20,7 @@ public class Particle
         try {
             velocity = v;
             position = p;
-        } catch (Exception* e) {
+        } catch (Exception e) {
             //catch an error resulting from passing less velocity/position components than expected
             System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
@@ -35,7 +34,7 @@ public class Particle
         try {
             velocity = velComps;
 
-        } catch (Exception* e) {
+        } catch (Exception e) {
             System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
@@ -47,7 +46,7 @@ public class Particle
           try {
               position = posCoords;
 
-          } catch (Exception* e) {
+          } catch (Exception e) {
               System.out.println("Error: Sudden change in dimensionality.");
               System.exit(0);
           }
@@ -92,7 +91,7 @@ public class Particle
     }
 
     public void updateNBest(){
-        for(p:myNeighbors){
+        for(Particle p : myNeighbors){
             if(p.getVal() < neighborhoodBest)
                 neighborhoodBest = p.getVal();
         }
