@@ -124,15 +124,33 @@ public class Swarm
 	//It'll probably involve Particle's .addNeighbor(Particle) and .removeNeighbor(Particle) methods, though.
 	public void updateNeighborhood(Particle p){
 		switch(topology){
-			case "van_neumann":
-				//stuff
+			case "gbest":
+				// neighborhood is entire swarm
+				for (Particle q in this.particles)
+				{
+				    p.addNeighbor(q);
+				}
 				break;
 			case "ring":
-				//stuff
+				// particles are imagined to be in a ring and the neighbors of each particle are the particles to the left and right of it
+
+				// if (object exists to the left of p in this.particles) -> add it
+				// else (object is first particle, so add the last particle in this.particles)
+				// if (object exists to the right of p) -> add it
+				// else (object is last particle, so add the first particle in this.particles)
+				
 				break; 
-			case "random":
-				/stuff
+			case "von_neumann":
+				// particles are imagined to be in a grid (that wraps around in both directions) 
+				// the neighbors of each particle are the particles above, below, and to the left and right of it
 				break;
+			case "random":
+    			//stuff
+    			break;
+    		default:
+    		    // shouldn't ever get here
+    		    // default to gbest, neighborhood is entire swarm
+    		    break;
 				
 			//each of these will be impemented separately according to the "famous" topology details
 		}
