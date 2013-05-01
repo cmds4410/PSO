@@ -102,11 +102,12 @@ public class Swarm
 				//NEED TO FIX THIS!!!
 				/*****************
 				
-				//accTowardPBest[i] = randPhi1 * p.getPBestPos();
+				//accTowardPBest[i] = randPhi1 * p.getPBestPos();  //NO
 				//accTowardNbest[i] = randPhi2 * p.getNBestPos();
 				
+				//we dont want the next position, we want a vector that goes from the current position to the next position
 				
-				
+				//subtract current position vector from pbestposition vector (have to implement this)
 				******************/
 				
 				//actually calculate the new velocity and position from it
