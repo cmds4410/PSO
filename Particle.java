@@ -3,9 +3,10 @@ import java.util.*;
 
 public class Particle
 {	
-    private Array<double> velocity;
-	private Array<double> position; 
-    private Array<int> pBestPos;
+    
+    private List velocity; //double
+	private List position; //double
+    private List pBestPos; //int
 	
     private double personalBest;
     private double neighborhoodBest;
@@ -13,9 +14,10 @@ public class Particle
     
 	private Random rand = new Random();
 
-    private Array<Particle> myNeighbors;
+    private List<Particle> myNeighbors;
 
-    public Particle(Array<double> v, Array<double> p) {
+    // double both
+    public Particle(List v, List p) {
 
         try {
             velocity = v;
@@ -25,11 +27,12 @@ public class Particle
             System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
-        
+
     }
     
     //setter for the velocities 
-    public void setVel(Array<double> velComps)
+    //double
+    public void setVel(List velComps)
     {
         try {
             velocity = velComps;
@@ -41,7 +44,8 @@ public class Particle
     }
     
     //setter for the positions
-    public void setPos(Array<double> posCoords)
+    //double
+    public void setPos(List posCoords)
       {
           try {
               position = posCoords;
@@ -52,21 +56,23 @@ public class Particle
           }
       }
                 
-      
-    public Array<double> getVel(){
+    //double
+    public List getVel(){
     	return velocity;
     }
 
-   	public Array<double> getPos(){
+    //double
+   	public List getPos(){
    		return position;
     }
 
     //set the personal best position
-    public Array<int> setPBestPos(Array<double> a){
+    //int? then double param
+    public void setPBestPos(List a){
         pBestPos = a;
     }
 
-    public void getPBestPos(){
+    public List getPBestPos(){
         return pBestPos;
     }
 
@@ -98,13 +104,16 @@ public class Particle
     }
 
     //NOTE: "being neighbors," under this logic, does NOT have to be a "two-way street."
-    public Bool isNeighborOf(Particle p){
-        if(Arrays.asList(myNeighbors).contains(p))
+    public Boolean isNeighborOf(Particle p){
+        /*
+        if(List.asList(myNeighbors).contains(p))
             return true;
         else return false;
+        */
+        return true;
     }
 
-    public Array<Particle> getNeighborhood(){
+    public List<Particle> getNeighborhood(){
         return myNeighbors;
     }
 
@@ -113,6 +122,6 @@ public class Particle
     }
 
     public void setVal(double val){
-        currVal = val;
+        currValue = val;
     }
 }

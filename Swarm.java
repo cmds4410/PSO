@@ -7,35 +7,30 @@ particles in a swarm.
 ****************/
 public class Swarm
 {
-	public static final double MAX_VELOCITY = ?; // for any direction/dimension
-	public static final double //DEFAULTS = ?; // inertia, phi, other constants
+	public static final double MAX_VELOCITY = 10000; // for any direction/dimension
+	public static final double MAX_POSITION = 10000; // for any direction/dimension
+	public static final double DEFAULTS = 0; // inertia, phi, other constants
 	
 	// resistance of a particle to change velocity
-	public static final double DEF_INERTIA = ??;
+	public static final double DEF_INERTIA = 0;
 	
 	public static final double PHI = 2.05;
 	
 	// number of dimensions has no limit (other than hard drive space/allocation restrivtions for arrays)
 	private int dimensions;
-	private String topology;
+	private topologyEnum topology;
 	private Boolean includeSelf;
 	private String influenceStructure;
 	private int size; // number of particles in swarm
 	private double globalBest;
 	private int bestParticle; // index of best particle
 	
-	//holds the mximum velocity (all components) that the particles can reach
-	private Array<double> maxVelocity; 
-	private Array<double> minVelocity;
-	
-	//holds the max and min positions which the particle can travel to
-	private Array<double> maxVelocity; 
-	private Array<double> minVelocity;
 	
 	//holds all of the particles in our swarm
-	private Array<Particle> particles;
+	//Particle
+	private ArrayList<Particle> particles;
 	
-	private double phi1 = phi2 = PHI;
+	private double phi1 = PHI, phi2 = PHI;
 	
 	//just for ease of use in calculating the constriction factor
   	private double phisum = phi1 + phi2;
@@ -45,7 +40,7 @@ public class Swarm
 	private Random rand = new Random();
 	
 	// this is the constructor of a swarm, which is created by PSO.java
-	public Swarm(String topology, String includeSelf, String influenceStructure, int swarmSize, String function, int dimensions) {
+	public Swarm(topologyEnum topology, String includeSelf, String influenceStructure, int swarmSize, String function, int dimensions) {
 
         // set the best to a very high (bad) value
 		globalBest = 999999;
@@ -53,27 +48,29 @@ public class Swarm
 		//initialize swarm variables
 		this.dimensions = dimensions;
 		this.topology = topology;
-		if (includeSelf.equalsIgnoreCase("yes") this.includeSelf = TRUE;
-		else this.includeSelf = FALSE;
+		if (includeSelf.equalsIgnoreCase("yes")) this.includeSelf = true;
+		else this.includeSelf = false;
 		this.influenceStructure = influenceStructure;
 		this.size = size;
-		inertia = DEF_INERTIA;
+        // inertia = DEF_INERTIA;
 
 		// initialize the particle array
-		newParticles = new Array<Particle>;
+		ArrayList<Particle> newParticles = new ArrayList<Particle>();
 		
 		for(int i = 0; i < swarmSize; i++){
 		    // particle constructor takes these arrays as parameters
-			Array<double> velocity;
-			Array<double> position;
+			List velocity = new ArrayList<Double>();
+			List position = new ArrayList<Double>();
 			
 			// set position and veocity for each dimension with random values
-			for (int j = 0; j < dimensions){
-				position[j] = rand.nextDouble() * maxPosition[i];
-				velocity[j] = rand.nextDouble() * maxVelocity[i];
+			for (int j = 0; j < dimensions; j++){
+                // position.get(j) = rand.nextDouble() * maxPosition[i];
+				position.set(j, rand.nextDouble() * MAX_POSITION);
+				velocity.set(j, rand.nextDouble() * MAX_VELOCITY);
 			}
 			
-			newParticles[i] = new Particle(intialV, initialP)
+			Particle p = new Particle(velocity, position);
+			newParticles.set(i,p);
 		}
 		
 		// sets this swarm objects particle array to the new one we just created
@@ -84,36 +81,48 @@ public class Swarm
 	//called repeatedly by PSO.java
 	public void update(){
 		
-		for(int i=0; i<this.particles.size; i++){
+		for(int i=0; i<this.particles.size(); i++){
 		    //grab the current velocities and save them as old
-		    Array<double> oldVel = particles[i].getVel();
-			Array<double> oldPos = particles[i].getPos();
+		    Particle p = (Particle)this.particles.get(i);
+		    List oldVel = p.getVel();
+			List oldPos = p.getPos();
 		    						
 			//new velocities will be formed using the acceleration, old velocity and position
-			newVel = new Array<double>;
-			newPos = new Array<double>;
+			List newVel = new ArrayList<Double>();
+			List newPos = new ArrayList<Double>();
 			
+			double accTowardPBest[] = new double[this.dimensions];
+			double accTowardNBest[] = new double[this.dimensions];
 			// loop through dimensions, calculate and update velocity and position
-			for (int j = 0 ; j < self.dimensions; j++){
+			for (int j = 0 ; j < this.dimensions; j++){
 				//determine the amount of accel towards both the personal and the global best
 				double randPhi1 = rand.nextDouble()*phi1;
 				double randPhi2 = rand.nextDouble()*phi2;
-				accTowardPBest[i] = randPhi1 * particles[i].getPBestPos();
-				accTowardNbest[i] = randPhi2 * particles[i].getNBestPos();
+				
+				//NEED TO FIX THIS!!!
+				/*****************
+				
+				//accTowardPBest[i] = randPhi1 * p.getPBestPos();
+				//accTowardNbest[i] = randPhi2 * p.getNBestPos();
+				
+				
+				
+				******************/
 				
 				//actually calculate the new velocity and position from it
-				newVel[i] = (oldVel[i] + accToPBest[i] + accToNBest[i]) * constrictionFactor;
-				newPos[i] = (oldPos[i] + newVel[i]);
+				newVel.set(i, (((Double)oldVel.get(i) + accTowardPBest[i] + accTowardNBest[i]) * constrictionFactor));
+				newPos.set(i, ((Double)oldPos.get(i) + (Double)newVel.get(i)));
 			}
 			
 			//send the vel/pos back to the Particle class
-			particles[i].setVel(newVel, newPos);
-			particles[i].setPos(newPos);
+			p.setVel(newVel);
+			p.setPos(newPos);
 		}
 	}
 
-	public Array<int> updateLocalBest(Particle p){
-		for(neighbor:p.getNeighborhood()){
+    //Int
+	public void updateLocalBest(Particle p){
+		for(Particle neighbor : p.getNeighborhood()){
 			//find out which neighbor has the highest value
 			//use the position of that neighbor to shift the position of this particle
 		}
@@ -123,15 +132,16 @@ public class Swarm
 	//which I don't think it's appropriate for us to do in a "sketch."
 	//It'll probably involve Particle's .addNeighbor(Particle) and .removeNeighbor(Particle) methods, though.
 	public void updateNeighborhood(Particle p){
-		switch(topology){
-			case "gbest":
+        // int enumval = ValueEnum.fromString(this.topology);
+		switch(this.topology){
+			case gbest:
 				// neighborhood is entire swarm
-				for (Particle q in this.particles)
+				for (Particle q : this.particles)
 				{
 				    p.addNeighbor(q);
 				}
 				break;
-			case "ring":
+			case ring:
 				// particles are imagined to be in a ring and the neighbors of each particle are the particles to the left and right of it
 
 				// if (object exists to the left of p in this.particles) -> add it
@@ -140,11 +150,11 @@ public class Swarm
 				// else (object is last particle, so add the first particle in this.particles)
 				
 				break; 
-			case "von_neumann":
+			case von_neumann:
 				// particles are imagined to be in a grid (that wraps around in both directions) 
 				// the neighbors of each particle are the particles above, below, and to the left and right of it
 				break;
-			case "random":
+			case random:
     			//stuff
     			break;
     		default:

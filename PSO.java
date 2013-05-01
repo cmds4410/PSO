@@ -5,13 +5,13 @@ import java.text.*;
 
 public class PSO
 {
-	public static String NEIGHBORHOOD_TOPOLOGY;
+	public static topologyEnum NEIGHBORHOOD_TOPOLOGY;
 	public static String INCLUDE_SELF;
 	public static String INFLUENCE_STRUCTURE;
 	public static String SWARM_SIZE;
 	public static String NUM_ITER;
 	public static String FUNCTION;
-	public static int DIMENSIONS;
+	public static String DIMENSIONS;
   
 	public static void main(String args[]){
 	    
@@ -21,8 +21,8 @@ public class PSO
                 System.out.println("Incorrect args!");
                 System.exit(0);
             }
-	    
-		NEIGHBORHOOD_TOPOLOGY = args[0];
+	    String top = args[0];
+		NEIGHBORHOOD_TOPOLOGY = top;
 		INCLUDE_SELF = args[1];
 		INFLUENCE_STRUCTURE = args[2];
 		SWARM_SIZE = args[3];
@@ -33,7 +33,7 @@ public class PSO
 		System.exit(0);
 
 		//time the program's execution
-		double startTime = System.CurrentTimeMillis();
+		double startTime = System.currentTimeMillis();
 
 		//create and randomize all of the individuals in the swarm, using params specified on command line
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS);
