@@ -8,10 +8,10 @@ public class PSO
 	public static String NEIGHBORHOOD_TOPOLOGY;
 	public static String INCLUDE_SELF;
 	public static String INFLUENCE_STRUCTURE;
-	public static String SWARM_SIZE;
-	public static String NUM_ITER;
+	public static int SWARM_SIZE;
+	public static int NUM_ITER;
 	public static String FUNCTION;
-	public static String DIMENSIONS;
+	public static int DIMENSIONS;
   
 	public static void main(String args[]){
 	    
@@ -25,10 +25,10 @@ public class PSO
 		NEIGHBORHOOD_TOPOLOGY = top;
 		INCLUDE_SELF = args[1];
 		INFLUENCE_STRUCTURE = args[2];
-		SWARM_SIZE = args[3];
-		NUM_ITER = args[4];
+		SWARM_SIZE = Integer.parseInt(args[3]);
+		NUM_ITER = Integer.parseInt(args[4]);
 		FUNCTION = args[5];
-		DIMENSIONS = args[6];
+		DIMENSIONS = Integer.parseInt(args[6]);
 		
 		System.exit(0);
 
@@ -44,7 +44,7 @@ public class PSO
 			s.update();
 		}
         */
-		double t = (System.CurrentTimeMillis() - startTime)/1000;
+		double t = (System.currentTimeMillis() - startTime)/1000;
 
 		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal());
 

@@ -348,5 +348,11 @@ public class Swarm
 		if(includeSelf)
 			p.addNeighbor(p);
 	}
-	//# means remove before submission if unnecessary #
+	
+	public double getBestVal()
+	{
+	    //obviously just a placeholder for now
+	    return 0;
+	}
+	
 }
