@@ -119,10 +119,6 @@ public class Particle
         myNeighbors.clear();
     }
 
-    public double getNBest(){
-        return neighborhoodBest;
-    }
-
     public void updateNBest(){
         for(Particle p : myNeighbors){
             if(p.getVal() < neighborhoodBest)

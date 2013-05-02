@@ -128,13 +128,13 @@ public class Swarm
 		for(int i=0; i<this.particles.size(); i++){
 		    //grab the current velocities and save them as old
 		    Particle p = (Particle)this.particles.get(i);
-		    List oldVel = p.getVel();
-			List oldPos = p.getPos();
+		    ArrayList<Double> oldVel = new ArrayList(p.getVel());
+			ArrayList<Double> oldPos = new ArrayList(p.getPos());
             
 			//new velocities will be formed using the acceleration, old velocity and position
 			List newVel = new ArrayList<Double>();
 			List newPos = new ArrayList<Double>();
-			List pBestPos = p.getPBestPos();
+			ArrayList<Double> pBestPos = new ArrayList(p.getPBestPos());
 			
 			//implement fully informed particle swarm, accelerate toward all personal bests with same weight.
 			if (this.influenceStructure.equalsIgnoreCase("FIPS")){
@@ -150,7 +150,9 @@ public class Swarm
                         
 						//we want vectors that go from the current position to the next position
 						//subtract current position vector from pbestposition vector (fixed)
-						accTowardEachPBest[nbr][dim] = randPhi2 * ((double)neigh.getPBestPos().get(dim) - (double)oldPos.get(dim));
+						ArrayList<Double> neighborhoodBestList = new ArrayList(neigh.getPBestPos());
+						double neighborhoodBest = neighborhoodBestList.get(dim);
+						accTowardEachPBest[nbr][dim] = randPhi2 * (neighborhoodBest - oldPos.get(dim));
                         
 						accelerationVector[dim] += accTowardEachPBest[nbr][dim];
 					}
@@ -165,7 +167,7 @@ public class Swarm
 			}
 			//normal swarm - influenced by personal and neighborhood best
 			else{
-				List nBestPos = p.getNBestPos();
+				ArrayList<Double> nBestPos = new ArrayList(p.getNBestPos());
 				double accTowardPBest[] = new double[this.dimensions];
 				double accTowardNBest[] = new double[this.dimensions];
                 
@@ -194,7 +196,7 @@ public class Swarm
 		
 		//evaluate new particle fitness and figure out personal best
 		for(Particle p : this.particles){
-			List pos = p.getPos();
+			ArrayList<Double> pos = new ArrayList(p.getPos());
 			double fitness = evaluate(pos);
 			if (fitness < p.getPBest()){
 				p.setPBest(fitness);
@@ -202,7 +204,7 @@ public class Swarm
 			}
 			
 			//if random topology, update neighborhoods here, good a place as any
-			if (this.topology == topologyEnum.random){ //like this right?
+			if (this.topology.equals("random")){ //like this right?
 				updateNeighborhood(p);
 			}
 		}
@@ -214,10 +216,11 @@ public class Swarm
 	public void updateLocalBests(){
 		for(Particle p : this.particles){
 			for(Particle neighbor : p.getNeighborhood()){
-				List neigh = p.getNeighborhood();
+				ArrayList<Particle> neigh = new ArrayList(p.getNeighborhood());
 				// search through neighbors for the best fitness
 				for(int j=0; j<neigh.size(); j++){
-					double neighBest = neigh.get(j).getPBest();
+				    Particle neighborParticle = neigh.get(j);
+					double neighBest = neighborParticle.getPBest();
 					if (neighBest < p.getNBest()){
 						p.setNBest(neighBest);
 						p.setNBestPos(neigh.get(j).getPBestPos());
@@ -227,8 +230,9 @@ public class Swarm
 		}
 	}
 	
-	public double evaluate(List pos){
-		double fitness;
+	public double evaluate(List posList){
+	    ArrayList<Double> pos = new ArrayList(posList);
+		double fitness = 0;
 		
 		if(this.function.equalsIgnoreCase("sphere")){
 			for(int i=0 ; i<pos.size() ; i++){
@@ -291,7 +295,7 @@ public class Swarm
             
             int rowLength = (int)Math.sqrt(this.particles.size());
             int particles2d[][] = new int[rowLength][rowLength];
-            int pRow,pCol; // p's row and col
+            int pRow = 0,pCol = 0; // p's row and col
             
             // fill 2d array with index of particle.
             for (int i=0; i<this.particles.size(); i++){
