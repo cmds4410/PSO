@@ -1,12 +1,14 @@
-import java.lang.Math.*;
 import java.util.*;
 
 public class Particle
 {	
     
-    private List velocity; //double
-	private List position; //double
-    private List pBestPos; //int
+	private int index; //used as identifier
+	
+    private List velocity; //doubles
+	private List position; //doubles
+    private List pBestPos; //doubles
+	private List nBestPos; //doubles
 	
     private double personalBest;
     private double neighborhoodBest;
@@ -17,9 +19,10 @@ public class Particle
     private List<Particle> myNeighbors;
 
     // double both
-    public Particle(List v, List p) {
+    public Particle(int i, List v, List p) {
 
         try {
+			index = i;
             velocity = v;
             position = p;
         } catch (Exception e) {
@@ -30,6 +33,11 @@ public class Particle
 
     }
     
+	//getter for index, returns int
+	public int getIndex(){
+		return index;
+	}
+	
     //setter for the velocities 
     //double
     public void setVel(List velComps)
@@ -76,6 +84,15 @@ public class Particle
         return pBestPos;
     }
 
+	//set neighborhood best position
+    public void setNBestPos(List a){
+        nBestPos = a;
+    }
+
+    public List getNBestPos(){
+        return nBestPos;
+    }
+
     public void setPBest(double pbest){
     	personalBest = pbest;
     }
@@ -88,8 +105,8 @@ public class Particle
         myNeighbors.add(p);
     }
 
-    public void removeNeighbor(Particle p){
-        myNeighbors.remove(p);
+    public void clearNeighbors(){
+        myNeighbors.clear();
     }
 
     public double getNBest(){
