@@ -2,10 +2,10 @@ import java.util.*;
 import java.lang.*;
 
 /****************
-Swarm is a java class for handling the behavior of a Particle Swarm.
-It uses methods supplied by Particle.java to update and manipulate individual
-particles in a swarm.
-****************/
+ Swarm is a java class for handling the behavior of a Particle Swarm.
+ It uses methods supplied by Particle.java to update and manipulate individual
+ particles in a swarm.
+ ****************/
 public class Swarm
 {
 	public static final double MAX_VELOCITY = 10000; // for any direction/dimension we need to know the proper max#
@@ -34,7 +34,7 @@ public class Swarm
 	
 	// number of dimensions has no limit (other than hard drive space/allocation restrivtions for arrays)
 	private int dimensions;
-	private topologyEnum topology;
+	private String topology;
 	private Boolean includeSelf;
 	private String influenceStructure;
 	private int size; // number of particles in swarm
@@ -57,9 +57,9 @@ public class Swarm
 	private Random rand = new Random();
 	
 	// this is the constructor of a swarm, which is created by PSO.java
-	public Swarm(topologyEnum topology, String includeSelf, String influenceStructure, 
-				int swarmSize, String function, int dimensions) {
-
+	public Swarm(String topology, String includeSelf, String influenceStructure,
+                 int swarmSize, String function, int dimensions) {
+        
         // set the best to a very high (bad) value
 		globalBest = 999999;
 		
@@ -130,7 +130,7 @@ public class Swarm
 		    Particle p = (Particle)this.particles.get(i);
 		    List oldVel = p.getVel();
 			List oldPos = p.getPos();
-		    						
+            
 			//new velocities will be formed using the acceleration, old velocity and position
 			List newVel = new ArrayList<Double>();
 			List newPos = new ArrayList<Double>();
@@ -147,18 +147,18 @@ public class Swarm
 					for (int dim = 0 ; dim < this.dimensions; dim++){
 						//determine the amount of accel towards both each neighbor's personal best
 						double randPhi2 = rand.nextDouble()*phi2;
-
+                        
 						//we want vectors that go from the current position to the next position
 						//subtract current position vector from pbestposition vector (fixed)
 						accTowardEachPBest[nbr][dim] = randPhi2 * ((double)neigh.getPBestPos().get(dim) - (double)oldPos.get(dim));
-
+                        
 						accelerationVector[dim] += accTowardEachPBest[nbr][dim];
 					}
 				}
 				for(int dim=0 ; dim<this.dimensions; dim++){
 					newVel.set(dim, (((Double)oldVel.get(dim) + accelerationVector[dim]) * constrictionFactor));
 					newPos.set(dim, ((Double)oldPos.get(dim) + (Double)newVel.get(dim)));
-					// ^^ this is the right math, but isn't working 
+					// ^^ this is the right math, but isn't working
 					// because list.get(j) is returning java.lang.Object (requires double)...same as below. what is this even?
 					
 				}
@@ -168,13 +168,13 @@ public class Swarm
 				List nBestPos = p.getNBestPos();
 				double accTowardPBest[] = new double[this.dimensions];
 				double accTowardNBest[] = new double[this.dimensions];
-			
-				// loop through dimensions, calculate and update velocity and position 
+                
+				// loop through dimensions, calculate and update velocity and position
 				for (int j = 0 ; j < this.dimensions; j++){
 					//determine the amount of accel towards both the personal and the global best
 					double randPhi1 = rand.nextDouble()*phi1;
 					double randPhi2 = rand.nextDouble()*phi2;
-				
+                    
 					//we want vectors that go from the current position to the next position
 					//subtract current position vector from pbestposition vector (fixed)
 					accTowardPBest[j] = randPhi1 * ((double)pBestPos.get(j) - (double)oldPos.get(j));
@@ -222,7 +222,7 @@ public class Swarm
 						p.setNBest(neighBest);
 						p.setNBestPos(neigh.get(j).getPBestPos());
 					}
-				}	
+				}
 			}
 		}
 	}
@@ -241,8 +241,8 @@ public class Swarm
 				y *= y; // 								( 1 - x_i )^2
 				double z = pos.get(i+1) - x; // 		( x_{i+1} - x_i^2 )
 				z *= z; // 								( x_{i+1} - x_i^2 )^2
-
-				fitness += 100 * z + y; // 						100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2 
+                
+				fitness += 100 * z + y; // 						100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
 			
@@ -260,101 +260,86 @@ public class Swarm
 	
 	public void updateNeighborhood(Particle p){
         // int enumval = ValueEnum.fromString(this.topology);
-		switch(this.topology){
-			case gbest:
-				// neighborhood is entire swarm
-				for (Particle q : this.particles)
-				{
-					if(p != q)
-				    	p.addNeighbor(q);
-				}
-				break;
-			case ring:
-				// particles are imagined to be in a ring and the neighbors of each particle are the particles 
-				// to the left and right of it
-				
-				// if (object exists to the left of p in this.particles) -> add it
-				// else (object is first particle, so add the last particle in this.particles)
-				// if (object exists to the right of p) -> add it
-				// else (object is last particle, so add the first particle in this.particles)
-				
-				for (int i=0; i<this.particles.size(); i++){
-					int lastIndex = this.particles.size()-1;
-					if(i==0) p.addNeighbor(this.particles.get(lastIndex));
-					else p.addNeighbor(this.particles.get(i-1));
-					if(i==lastIndex) p.addNeighbor(this.particles.get(0));
-					else p.addNeighbor(this.particles.get(i+1));
-				}
-				
-				break; 
-			case von_neumann:
-				// particles are imagined to be in a grid (that wraps around in both directions) 
-				// the neighbors of each particle are the particles above, below, and to the left and right of it
-				
-				int rowLength = (int)Math.sqrt(this.particles.size());
-				int particles2d[][] = new int[rowLength][rowLength];
-				int pRow,pCol; // p's row and col
-				
-				// fill 2d array with index of particle.
-				for (int i=0; i<this.particles.size(); i++){
-					
-					int r,c; // row and column indeces of 2d array
-					if((i%rowLength) > 0){
-						r = (int) i/rowLength;
-						c = i%rowLength;
-					}else{
-						r = (int)i/rowLength;
-						c = 0;
-					}
-					particles2d[r][c] = i;
-					
-					if(i == p.getIndex()){
-						pRow = r;
-						pCol = c;
-					}
-				}
-				
-				// go through the 2d array and check if row xor col matches p's, if so, add as neighbor
-				try { //for debugging*
-					for(int r=0; r<rowLength; r++){
-						for(int c=0; c<rowLength; c++){
-							if(r == pRow ^ c == pCol){
-								int index = particles2d[r][c];
-								p.addNeighbor(this.particles.get(index));
-							}
-						}
-					}
-					
-		        } catch (Exception e) {
-		            //catch an error resulting from passing less velocity/position components than expected
-		            System.out.println("pRow not set for some odd reason");
-		            System.exit(0);
-		        }
-				
-				break;
-			case random:
-    			// clear neighborhood and add iterate through particles, adding each with chance
-				// of RANDOMTOPOLOGY_PROBABILITY (default .5, but modifiable for testing purposes)
-				p.clearNeighbors();
-				
-				for (Particle q : this.particles)
-				{
-					if(rand.nextDouble() > RANDOMTOPOLOGY_PROBABILITY && p != q)
-				    	p.addNeighbor(q);
-				}
-    			break;
-    		default:
-    		    // shouldn't ever get here
-    		    // default to gbest, neighborhood is entire swarm
-				for (Particle q : this.particles)
-				{
-				    p.addNeighbor(q);
-				}
-				//System.out.println("defaulted to gbest"); // for debugging#
-				//System.exit(0)
-    		    break;
-				
-			//each of these will be impemented separately according to the "famous" topology details
+		if (this.topology.equals("gbest")){
+            // neighborhood is entire swarm
+            for (Particle q : this.particles)
+            {
+                if(p != q)
+                    p.addNeighbor(q);
+            }
+        }
+		else if (this.topology.equals("ring")){
+			// particles are imagined to be in a ring and the neighbors of each particle are the particles
+			// to the left and right of it
+            
+			// if (object exists to the left of p in this.particles) -> add it
+			// else (object is first particle, so add the last particle in this.particles)
+			// if (object exists to the right of p) -> add it
+			// else (object is last particle, so add the first particle in this.particles)
+			
+			for (int i=0; i<this.particles.size(); i++){
+				int lastIndex = this.particles.size()-1;
+				if(i==0) p.addNeighbor(this.particles.get(lastIndex));
+				else p.addNeighbor(this.particles.get(i-1));
+				if(i==lastIndex) p.addNeighbor(this.particles.get(0));
+				else p.addNeighbor(this.particles.get(i+1));
+			}
+		}
+		else if (this.topology.equals("von_neumann")){
+            // particles are imagined to be in a grid (that wraps around in both directions)
+            // the neighbors of each particle are the particles above, below, and to the left and right of it
+            
+            int rowLength = (int)Math.sqrt(this.particles.size());
+            int particles2d[][] = new int[rowLength][rowLength];
+            int pRow,pCol; // p's row and col
+            
+            // fill 2d array with index of particle.
+            for (int i=0; i<this.particles.size(); i++){
+                
+                int r,c; // row and column indeces of 2d array
+                if((i%rowLength) > 0){
+                    r = (int) i/rowLength;
+                    c = i%rowLength;
+                }else{
+                    r = (int)i/rowLength;
+                    c = 0;
+                }
+                particles2d[r][c] = i;
+                
+                if(i == p.getIndex()){
+                    pRow = r;
+                    pCol = c;
+                }
+            }
+            
+            // go through the 2d array and check if row xor col matches p's, if so, add as neighbor
+            try { //for debugging*
+                for(int r=0; r<rowLength; r++){
+                    for(int c=0; c<rowLength; c++){
+                        if(r == pRow ^ c == pCol){
+                            int index = particles2d[r][c];
+                            p.addNeighbor(this.particles.get(index));
+                        }
+                    }
+                }
+                
+            } catch (Exception e) {
+                //catch an error resulting from passing less velocity/position components than expected
+                System.out.println("pRow not set for some odd reason");
+                System.exit(0);
+            }
+	    }
+        
+		else if (this.topology.equals("random")){
+    		// clear neighborhood and add iterate through particles, adding each with chance
+			// of RANDOMTOPOLOGY_PROBABILITY (default .5, but modifiable for testing purposes)
+			p.clearNeighbors();
+            
+			for (Particle q : this.particles)
+			{
+				if(rand.nextDouble() > RANDOMTOPOLOGY_PROBABILITY && p != q)
+			    	p.addNeighbor(q);
+			}
 		}
 		if(includeSelf)
 			p.addNeighbor(p);

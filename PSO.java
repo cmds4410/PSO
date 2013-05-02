@@ -5,7 +5,7 @@ import java.text.*;
 
 public class PSO
 {
-	public static topologyEnum NEIGHBORHOOD_TOPOLOGY;
+	public static String NEIGHBORHOOD_TOPOLOGY;
 	public static String INCLUDE_SELF;
 	public static String INFLUENCE_STRUCTURE;
 	public static String SWARM_SIZE;
