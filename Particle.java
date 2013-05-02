@@ -20,11 +20,14 @@ public class Particle
 
     // double both
     public Particle(int i, List v, List p) {
-
+		
+		// initialize values
         try {
 			index = i;
             velocity = v;
             position = p;
+			nBestPos = p;
+			pBestPos = p;
         } catch (Exception e) {
             //catch an error resulting from passing less velocity/position components than expected
             System.out.println("Error: Sudden change in dimensionality.");
@@ -99,6 +102,13 @@ public class Particle
 
     public double getPBest(){
         return personalBest;
+    }
+	public void setNBest(double nbest){
+    	neighborhoodBest = nbest;
+    }
+
+    public double getNBest(){
+        return neighborhoodBest;
     }
 
     public void addNeighbor(Particle p){
