@@ -106,7 +106,7 @@ public class Swarm
 			}
 			
 			Particle p = new Particle(index, velocity, position);
-			System.out.println("adding new particle");
+
 			newParticles.add(i,p);
 		}
 		
