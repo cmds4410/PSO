@@ -204,7 +204,7 @@ public class Swarm
 			}
 			
 			//if random topology, update neighborhoods here, good a place as any
-			if (this.topology.equals("random")){ //like this right?
+			if (this.topology.equalsIgnoreCase("random")){ //like this right?
 				updateNeighborhood(p);
 			}
 		}
@@ -264,7 +264,7 @@ public class Swarm
 	
 	public void updateNeighborhood(Particle p){
         // int enumval = ValueEnum.fromString(this.topology);
-		if (this.topology.equals("gbest")){
+		if (this.topology.equalsIgnoreCase("gbest")){
             // neighborhood is entire swarm
             for (Particle q : this.particles)
             {
@@ -272,7 +272,7 @@ public class Swarm
                     p.addNeighbor(q);
             }
         }
-		else if (this.topology.equals("ring")){
+		else if (this.topology.equalsIgnoreCase("ring")){
 			// particles are imagined to be in a ring and the neighbors of each particle are the particles
 			// to the left and right of it
             
@@ -289,7 +289,7 @@ public class Swarm
 				else p.addNeighbor(this.particles.get(i+1));
 			}
 		}
-		else if (this.topology.equals("von_neumann")){
+		else if (this.topology.equalsIgnoreCase("von_neumann")){
             // particles are imagined to be in a grid (that wraps around in both directions)
             // the neighbors of each particle are the particles above, below, and to the left and right of it
             
@@ -334,7 +334,7 @@ public class Swarm
             }
 	    }
         
-		else if (this.topology.equals("random")){
+		else if (this.topology.equalsIgnoreCase("random")){
     		// clear neighborhood and add iterate through particles, adding each with chance
 			// of RANDOMTOPOLOGY_PROBABILITY (default .5, but modifiable for testing purposes)
 			p.clearNeighbors();
@@ -351,8 +351,14 @@ public class Swarm
 	
 	public double getBestVal()
 	{
-	    //obviously just a placeholder for now
-	    return 0;
+	    double bestVal = 10000000000;
+	    for (Particle p : this.particles)
+	    {
+	        double particleBest = p.getPBest();
+	        if (particleBest < bestVal)
+	            bestVal = particleBest
+	    }
+	    return bestVal;
 	}
 	
 }
