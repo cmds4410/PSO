@@ -18,7 +18,8 @@ public class PSO
 	    // check if user entered incorrect args
 	    if(args.length != 7)
             {
-                System.out.println("Incorrect args!");
+                System.out.println("Incorrect args! " + args.length);
+                System.out.println("Input: NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, NUM_ITER, FUNCTION, DIMENSIONS");
                 System.exit(0);
             }
 	    String top = args[0];
@@ -29,8 +30,6 @@ public class PSO
 		NUM_ITER = Integer.parseInt(args[4]);
 		FUNCTION = args[5];
 		DIMENSIONS = Integer.parseInt(args[6]);
-		
-		System.exit(0);
 
 		//time the program's execution
 		double startTime = System.currentTimeMillis();
@@ -39,11 +38,11 @@ public class PSO
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS);
 
 		//actually run the algorithm
-		/*
-		for(int i : NUM_ITER){
+		
+		for(int i = 0; i < NUM_ITER; i++){
 			s.update();
 		}
-        */
+        
 		double t = (System.currentTimeMillis() - startTime)/1000;
 
 		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal());
