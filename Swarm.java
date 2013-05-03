@@ -8,8 +8,8 @@ import java.lang.*;
  ****************/
 public class Swarm
 {
-	public static final double MAX_VELOCITY = 10000; // for any direction/dimension we need to know the proper max#
-	
+	public static final double MAX_VELOCITY = 2; // for any direction/dimension 
+	public static final double MIN_VELOCITY = -2;
 	
 	public static final double MAX_INIT_POSITION_SPHERE = 100.0; // for any direction/dimension
 	public static final double MIN_INIT_POSITION_SPHERE = 50.0;
@@ -103,6 +103,7 @@ public class Swarm
 					System.out.println("invalid function.");
 				}
 				velocity.add(j, rand.nextDouble() * MAX_VELOCITY);
+				velocity.set(j, (MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * rand.nextDouble());
 			}
 			
 			Particle p = new Particle(index, velocity, position);
