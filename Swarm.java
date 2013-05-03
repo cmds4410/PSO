@@ -90,23 +90,24 @@ public class Swarm
 			// set position and veocity for each dimension with random values within specified range
 			for (int j = 0; j < dimensions; j++){
 				if(this.function.equalsIgnoreCase("sphere")){
-					position.set(j, rand.nextDouble() * SPHERE_RANGE + MIN_INIT_POSITION_SPHERE);
+					position.add(j, rand.nextDouble() * SPHERE_RANGE + MIN_INIT_POSITION_SPHERE);
 				}else if(this.function.equalsIgnoreCase("rosenbrock")){
-					position.set(j, rand.nextDouble() * ROSENBROCK_RANGE + MIN_INIT_POSITION_ROSENBROCK);
+					position.add(j, rand.nextDouble() * ROSENBROCK_RANGE + MIN_INIT_POSITION_ROSENBROCK);
 				}else if(this.function.equalsIgnoreCase("griewank")){
-					position.set(j, rand.nextDouble() * GRIEWANK_RANGE + MIN_INIT_POSITION_GRIEWANK);
+					position.add(j, rand.nextDouble() * GRIEWANK_RANGE + MIN_INIT_POSITION_GRIEWANK);
 				}else if(this.function.equalsIgnoreCase("ackley")){
-					position.set(j, rand.nextDouble() * ACKLEY_RANGE + MIN_INIT_POSITION_ACKLEY);
+					position.add(j, rand.nextDouble() * ACKLEY_RANGE + MIN_INIT_POSITION_ACKLEY);
 				}else if(this.function.equalsIgnoreCase("rastrigin")){
-					position.set(j, rand.nextDouble() * RASTRIGIN_RANGE + MIN_INIT_POSITION_RASTRIGIN);
+					position.add(j, rand.nextDouble() * RASTRIGIN_RANGE + MIN_INIT_POSITION_RASTRIGIN);
 				}else {
 					System.out.println("invalid function.");
 				}
-				velocity.set(j, rand.nextDouble() * MAX_VELOCITY);
+				velocity.add(j, rand.nextDouble() * MAX_VELOCITY);
 			}
 			
 			Particle p = new Particle(index, velocity, position);
-			newParticles.set(i,p);
+			System.out.println("adding new particle");
+			newParticles.add(i,p);
 		}
 		
 		// sets this swarm objects particle array to the new one we just created
@@ -142,7 +143,8 @@ public class Swarm
 				double accelerationVector[] = new double[this.dimensions]; // used to aggregate the accelerations toward all the bests
 				
 				//aggregate acceleration toward each neighbor for a given dimension.
-				for(int nbr=0; nbr<particles.size(); nbr++){
+                // for(int nbr=0; nbr<particles.size(); nbr++){
+				for(int nbr = 0; nbr < p.getNeighborhood().size(); nbr++){
 					Particle neigh = p.getNeighborhood().get(nbr);
 					for (int dim = 0 ; dim < this.dimensions; dim++){
 						//determine the amount of accel towards both each neighbor's personal best
@@ -157,9 +159,10 @@ public class Swarm
 						accelerationVector[dim] += accTowardEachPBest[nbr][dim];
 					}
 				}
-				for(int dim=0 ; dim<this.dimensions; dim++){
-					newVel.set(dim, (((Double)oldVel.get(dim) + accelerationVector[dim]) * constrictionFactor));
-					newPos.set(dim, ((Double)oldPos.get(dim) + (Double)newVel.get(dim)));
+
+				for(int dim = 0; dim < this.dimensions; dim++){
+					newVel.add(dim, (((Double)oldVel.get(dim) + accelerationVector[dim]) * constrictionFactor));
+					newPos.add(dim, ((Double)oldPos.get(dim) + (Double)newVel.get(dim)));
 					// ^^ this is the right math, but isn't working
 					// because list.get(j) is returning java.lang.Object (requires double)...same as below. what is this even?
 					
@@ -249,6 +252,7 @@ public class Swarm
 				fitness += 100 * z + y; // 						100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
+		    
 			
 		}else if(this.function.equalsIgnoreCase("ackley")){
 			
@@ -263,7 +267,7 @@ public class Swarm
 	}
 	
 	public void updateNeighborhood(Particle p){
-        // int enumval = ValueEnum.fromString(this.topology);
+	    
 		if (this.topology.equalsIgnoreCase("gbest")){
             // neighborhood is entire swarm
             for (Particle q : this.particles)
@@ -337,6 +341,7 @@ public class Swarm
 		else if (this.topology.equalsIgnoreCase("random")){
     		// clear neighborhood and add iterate through particles, adding each with chance
 			// of RANDOMTOPOLOGY_PROBABILITY (default .5, but modifiable for testing purposes)
+			
 			p.clearNeighbors();
             
 			for (Particle q : this.particles)

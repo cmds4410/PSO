@@ -28,6 +28,8 @@ public class Particle
             position = p;
 			nBestPos = p;
 			pBestPos = p;
+			
+			myNeighbors = new ArrayList<Particle>();
         } catch (Exception e) {
             //catch an error resulting from passing less velocity/position components than expected
             System.out.println("Error: Sudden change in dimensionality.");
