@@ -46,7 +46,7 @@ public class PSO
         
 		double t = (System.currentTimeMillis() - startTime)/1000;
 
-		//System.out.println("The algorithm is complete. The best value found was " + s.getBestVal(NUM_ITER-1));
+		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal(NUM_ITER-1) + " StdDev = " + s.getStdDev());
 
 		//System.out.println("Time to completion: " + t + "sec");
 	}
