@@ -103,7 +103,7 @@ public class Swarm
 					System.out.println("invalid function.");
 				}
 				velocity.add(j, rand.nextDouble() * MAX_VELOCITY);
-				velocity.set(j, (MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * rand.nextDouble());
+				velocity.set(j, (MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * rand.nextDouble()));
 			}
 			
 			Particle p = new Particle(index, velocity, position);
@@ -240,7 +240,7 @@ public class Swarm
 				fitness += pos.get(i) * pos.get(i);
 			}
 		}else if(this.function.equalsIgnoreCase("rosenbrock")){ //comment notation from bratton paper, x-sub-i is x[i]
-			for (int i=0 ; i <pos.size() ; i++) {
+			for (int i=0 ; i <pos.size()-1 ; i++) {
 				double x = pos.get(i) * pos.get(i);	//x[i] ^ 2
 				double y = (pos.get(i) - 1); 		//x[i] - 1
 				y *= y; 							//(x[i] - 1)^2
@@ -254,12 +254,13 @@ public class Swarm
 		}else if(this.function.equalsIgnoreCase("ackley")){
 			
 		}else if(this.function.equalsIgnoreCase("rastrigin")){
-			
+			for (int i=0 ; i <pos.size() ; i++) {
+				double x_i = pos.get(i);
+				fitness += Math.pow(x_i, 2) - 10*Math.cos(2*Math.PI*x_i) + 10;
+			}
 		}else{
 			System.out.println("invalid function.");
 		}
-		
-		
 		return fitness;
 	}
 	
