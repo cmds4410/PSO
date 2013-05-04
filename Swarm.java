@@ -249,15 +249,23 @@ public class Swarm
 				fitness += z + y; // 				//100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
-		    double sum_a = 0, sum_b = 0
+		    double sum_a = 0, sum_b = 0;
 		    for (int i=0 ; i <pos.size() ; i++) {
 				sum_a+=Math.pow(pos.get(i),2);
 			}
 			for (int i=0 ; i <pos.size() ; i++) {
 				sum_b*=Math.cos(pos.get(i)/Math.sqrt(i));
 			}
-			fitness = sum_a/4000-sum_b+1	
+			fitness = sum_a/4000-sum_b+1;	
 		}else if(this.function.equalsIgnoreCase("ackley")){
+			double sum1, sum2 = 0;
+			for (int i=0 ; i <pos.size() ; i++) {
+				sum1+= pos.get(i)*pos.get(i);
+			}
+			for (int i=0 ; i <pos.size() ; i++) {
+				sum2*=Math.cos(2.0 * Math.PI * pos.get(i));
+			}
+			fitness = -20.0 * Math.exp(-0.2 * Math.sqrt(sum1/2.0)) - Math.exp(sum2/2.0) + 20.0 + Math.E;
 			
 		}else if(this.function.equalsIgnoreCase("rastrigin")){
 			for (int i=0 ; i <pos.size() ; i++) {
@@ -328,7 +336,7 @@ public class Swarm
             try { //for debugging*
                 for(int r=0; r<rowLength; r++){
                     for(int c=0; c<rowLength; c++){
-                        if(r == pRow ^ c == pCol){
+                        if(r == pRow ^ c == pCol){ // add neighbors in the same row or column, but not both
                             int index = particles2d[r][c];
                             p.addNeighbor(this.particles.get(index));
                         }
