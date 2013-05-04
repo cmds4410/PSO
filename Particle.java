@@ -28,8 +28,12 @@ public class Particle
             position = p;
 			nBestPos = p;
 			pBestPos = p;
+            personalBest = 1000000000;
 			
+            // initialize lists
 			myNeighbors = new ArrayList<Particle>();
+            
+            
         } catch (Exception e) {
             //catch an error resulting from passing less velocity/position components than expected
             System.exit(0);

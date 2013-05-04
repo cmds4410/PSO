@@ -39,8 +39,9 @@ public class Swarm
 	private String influenceStructure;
 	private int size; // number of particles in swarm
 	private String function;
-	private double globalBest;
+	private double globalBest[];
 	private int bestParticle; // index of best particle
+    private int iterations; // number of iterations, used to create the global best array (this.globalBest)
 	
 	
 	//holds all of the particles in our swarm
@@ -58,10 +59,8 @@ public class Swarm
 	
 	// this is the constructor of a swarm, which is created by PSO.java
 	public Swarm(String topology, String includeSelf, String influenceStructure,
-                 int swarmSize, String function, int dimensions) {
+                 int swarmSize, String function, int dimensions, int iterations) {
         
-        // set the best to a very high (bad) value
-		globalBest = 999999;
 		
 		//initialize swarm variables
 		this.dimensions = dimensions;
@@ -71,6 +70,7 @@ public class Swarm
 		this.influenceStructure = influenceStructure;
 		this.size = swarmSize;
 		this.function = function;
+        this.iterations = iterations;
 		
 		initSwarm();
 	}
@@ -80,8 +80,11 @@ public class Swarm
 		
 		// initialize the particle array
 		ArrayList<Particle> newParticles = new ArrayList<Particle>();
+        
+        // initialize the global best array
+        this.globalBest = new double[this.iterations];
 		
-		for(int i = 0; i < size; i++){
+		for(int i = 0; i < this.size; i++){
 		    // particle constructor takes these arrays as parameters
 			int index = i;
 			List velocity = new ArrayList<Double>();
@@ -130,8 +133,11 @@ public class Swarm
 		for(int i=0; i<this.particles.size(); i++){
 		    //grab the current velocities and save them as old
 		    Particle p = (Particle)this.particles.get(i);
+            
 		    ArrayList<Double> oldVel = new ArrayList(p.getVel());
 			ArrayList<Double> oldPos = new ArrayList(p.getPos());
+            
+//            System.out.println("position of particle " + i + " is: " + oldPos.get(0));
             
 			//new velocities will be formed using the acceleration, old velocity and position
 			List newVel = new ArrayList<Double>();
@@ -165,6 +171,7 @@ public class Swarm
 					newVel.add(dim, (((Double)oldVel.get(dim) + accelerationVector[dim]) * constrictionFactor));
 					newPos.add(dim, ((Double)oldPos.get(dim) + (Double)newVel.get(dim)));
 				}
+                
 			}
 			//normal swarm - influenced by personal and neighborhood best
 			else{
@@ -186,8 +193,8 @@ public class Swarm
 					
 					
 					//actually calculate the new velocity and position from it
-					newVel.set(j, (((Double)oldVel.get(j) + accTowardPBest[j] + accTowardNBest[j]) * constrictionFactor));
-					newPos.set(j, ((Double)oldPos.get(j) + (Double)newVel.get(j)));
+					newVel.add(j, (((Double)oldVel.get(j) + accTowardPBest[j] + accTowardNBest[j]) * constrictionFactor));
+					newPos.add(j, ((Double)oldPos.get(j) + (Double)newVel.get(j)));
 				}
 			}
 			//send the vel/pos back to the Particle class
@@ -197,8 +204,10 @@ public class Swarm
 		
 		//evaluate new particle fitness and figure out personal best
 		for(Particle p : this.particles){
-			ArrayList<Double> pos = new ArrayList(p.getPos());
+			List pos = p.getPos();
+//            for (int i)
 			double fitness = evaluate(pos);
+            p.setVal(fitness);
 			if (fitness < p.getPBest()){
 				p.setPBest(fitness);
 				p.setPBestPos(pos);
@@ -366,16 +375,19 @@ public class Swarm
 			p.addNeighbor(p);
 	}
 	
-	public double getBestVal()
+	public double getBestVal(int iteration)
 	{
-	    double bestVal = 10000000;
+	    this.globalBest[iteration] = 10000000;
+        int i = 0;
 	    for (Particle p : this.particles)
 	    {
 	        double particleBest = p.getPBest();
-	        if (particleBest < bestVal)
-	            bestVal = particleBest;
+            System.out.println("pbest of " + i + " = " + particleBest + " currVal of " + i + " = " + p.getVal());
+	        if (particleBest < this.globalBest[iteration])
+	            this.globalBest[iteration] = particleBest;
+                               i++;
 	    }
-	    return bestVal;
+	    return this.globalBest[iteration];
 	}
 	
 }
