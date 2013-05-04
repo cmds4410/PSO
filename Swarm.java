@@ -267,7 +267,7 @@ public class Swarm
 			}
 			fitness = sum_a/4000-sum_b+1;	
 		}else if(this.function.equalsIgnoreCase("ackley")){
-			double sum1, sum2 = 0;
+			double sum1=0, sum2=0;
 			for (int i=0 ; i <pos.size() ; i++) {
 				sum1+= pos.get(i)*pos.get(i);
 			}
