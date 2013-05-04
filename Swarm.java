@@ -164,9 +164,6 @@ public class Swarm
 				for(int dim = 0; dim < this.dimensions; dim++){
 					newVel.add(dim, (((Double)oldVel.get(dim) + accelerationVector[dim]) * constrictionFactor));
 					newPos.add(dim, ((Double)oldPos.get(dim) + (Double)newVel.get(dim)));
-					// ^^ this is the right math, but isn't working
-					// because list.get(j) is returning java.lang.Object (requires double)...same as below. what is this even?
-					
 				}
 			}
 			//normal swarm - influenced by personal and neighborhood best
@@ -242,15 +239,14 @@ public class Swarm
 			for(int i=0 ; i<pos.size() ; i++){
 				fitness += pos.get(i) * pos.get(i);
 			}
-		}else if(this.function.equalsIgnoreCase("rosenbrock")){
+		}else if(this.function.equalsIgnoreCase("rosenbrock")){ //comment notation from bratton paper, x-sub-i is x[i]
 			for (int i=0 ; i <pos.size() ; i++) {
-				double x = pos.get(i) * pos.get(i); //	x_i^2
-				double y = (1 - pos.get(i)); // 			( 1 - x_i )
-				y *= y; // 								( 1 - x_i )^2
-				double z = pos.get(i+1) - x; // 		( x_{i+1} - x_i^2 )
-				z *= z; // 								( x_{i+1} - x_i^2 )^2
-                
-				fitness += 100 * z + y; // 						100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
+				double x = pos.get(i) * pos.get(i);	//x[i] ^ 2
+				double y = (pos.get(i) - 1); 		//x[i] - 1
+				y *= y; 							//(x[i] - 1)^2
+				double z = pos.get(i+1) - x; 		//x[i+1] - x[i]^2
+				z *= 100*z; 						//100(x[i+1] - x[i]^2)^2
+				fitness += z + y; // 				//100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
 		    
