@@ -249,8 +249,14 @@ public class Swarm
 				fitness += z + y; // 				//100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
-		    
-			
+		    double sum_a = 0, sum_b = 0
+		    for (int i=0 ; i <pos.size() ; i++) {
+				sum_a+=Math.pow(pos.get(i),2);
+			}
+			for (int i=0 ; i <pos.size() ; i++) {
+				sum_b*=Math.cos(pos.get(i)/Math.sqrt(i));
+			}
+			fitness = sum_a/4000-sum_b+1	
 		}else if(this.function.equalsIgnoreCase("ackley")){
 			
 		}else if(this.function.equalsIgnoreCase("rastrigin")){
