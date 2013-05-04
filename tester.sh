@@ -45,8 +45,8 @@ do
         do
           for try in {0..50}
           do 
-            echo -n $ntopo, $inclme, $struct, $size, $funct, $dim, $try >> testresults
-            echo java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
+            echo "$ntopo, $inclme, $struct, $size, $funct, $DIMENSIONS, $try\c" >> testresults
+            #echo java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
           done
         done
       done
