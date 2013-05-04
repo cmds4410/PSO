@@ -32,7 +32,6 @@ public class Particle
 			myNeighbors = new ArrayList<Particle>();
         } catch (Exception e) {
             //catch an error resulting from passing less velocity/position components than expected
-            System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
 
@@ -51,7 +50,6 @@ public class Particle
             velocity = velComps;
 
         } catch (Exception e) {
-            System.out.println("Error: Sudden change in dimensionality.");
             System.exit(0);
         }
     }
@@ -64,7 +62,6 @@ public class Particle
               position = posCoords;
 
           } catch (Exception e) {
-              System.out.println("Error: Sudden change in dimensionality.");
               System.exit(0);
           }
       }
@@ -126,16 +123,6 @@ public class Particle
             if(p.getVal() < neighborhoodBest)
                 neighborhoodBest = p.getVal();
         }
-    }
-
-    //NOTE: "being neighbors," under this logic, does NOT have to be a "two-way street."
-    public Boolean isNeighborOf(Particle p){
-        /*
-        if(List.asList(myNeighbors).contains(p))
-            return true;
-        else return false;
-        */
-        return true;
     }
 
     public List<Particle> getNeighborhood(){

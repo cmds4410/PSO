@@ -43,11 +43,10 @@ do
       do
         for funct in "${FUNCTION[@]}"
         do
-          echo ">>>>>>>>>>>>>>>> For parameter combination [ntopo=$ntopo inclme=$inclme struct=$struct size=$size funct=$funct dim=$dim try=$try] >>>>>>>>>>>>>>>>>>>" >> testresults
           for try in {0..50}
           do 
-            echo ">>>> trial $try >>>>>>" >> testresults
-            java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
+            echo -n $ntopo, $inclme, $struct, $size, $funct, $dim, $try >> testresults
+            echo java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
           done
         done
       done
