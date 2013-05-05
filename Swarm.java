@@ -63,7 +63,10 @@ public class Swarm
         
 		
 		//initialize swarm variables
-		this.dimensions = dimensions;
+        if (function.equalsIgnoreCase("griewank") && dimensions > 10)
+            this.dimensions = 10;
+        else
+            this.dimensions = dimensions;
 		this.topology = topology;
 		if (includeSelf.equalsIgnoreCase("yes")) this.includeSelf = true;
 		else this.includeSelf = false;
@@ -265,7 +268,7 @@ public class Swarm
 			for (int i=0 ; i <pos.size() ; i++) {
 				sum_b*=Math.cos(pos.get(i)/Math.sqrt(i));
 			}
-			fitness = sum_a/4000-sum_b+1;	
+			fitness = sum_a/4000-sum_b+1;
 		}else if(this.function.equalsIgnoreCase("ackley")){
 			double sum1=0, sum2=0;
 			for (int i=0 ; i <pos.size() ; i++) {
