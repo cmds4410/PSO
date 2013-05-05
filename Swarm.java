@@ -389,5 +389,28 @@ public class Swarm
 	    }
 	    return this.globalBest[iteration];
 	}
+    
+    public double getMean()
+    {
+        double sum = 0.0;
+        for(double a : this.globalBest)
+            sum += a;
+        return sum/size;
+    }
+    
+    public double getVariance()
+    {
+        double mean = getMean();
+        System.out.println("mean = " + mean);
+        double temp = 0;
+        for(double a :this.globalBest)
+            temp += (a-mean)*(a-mean);
+        return temp/size;
+    }
+    
+    public double getStdDev()
+    {
+        return Math.sqrt(getVariance());
+    }
 	
 }

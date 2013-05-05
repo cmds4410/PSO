@@ -40,5 +40,6 @@ public class PSO
 			s.update();
             System.out.print(s.getBestVal(i)+",");
 		}
+		System.out.println("The algorithm is complete. The best value found was " + s.getBestVal(NUM_ITER-1) + " StdDev = " + s.getStdDev());
 	}
 }
