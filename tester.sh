@@ -43,7 +43,7 @@ do
       do
         for funct in "${FUNCTION[@]}"
         do
-          for try in {0..1}
+          for try in {0..50}
           do 
             echo "$ntopo, $inclme, $struct, $size, $funct, $try, \c" >> $OUTFILE
             java PSO $ntopo $inclme $struct $size $ITER $funct $DIMENSIONS >> $OUTFILE
