@@ -29,7 +29,6 @@ public class Particle
 			nBestPos = p;
 			pBestPos = p;
             personalBest = Double.MAX_VALUE;
-            System.out.println(personalBest);
 			
             // initialize lists
 			myNeighbors = new ArrayList<Particle>();
