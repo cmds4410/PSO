@@ -401,7 +401,7 @@ public class Swarm
     public double getVariance()
     {
         double mean = getMean();
-        System.out.println("mean = " + mean);
+        System.out.print(mean+","); //print out the mean right after the run values
         double temp = 0;
         for(double a :this.globalBest)
             temp += (a-mean)*(a-mean);
