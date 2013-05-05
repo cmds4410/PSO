@@ -255,7 +255,7 @@ public class Swarm
 				y *= y; 							//(x[i] - 1)^2
 				double z = pos.get(i+1) - x; 		//x[i+1] - x[i]^2
 				z *= 100*z; 						//100(x[i+1] - x[i]^2)^2
-				fitness += z + y; // 				//100 ( x_{i+1} - x_i^2 )^2 + ( 1 - x_i )^2
+				fitness += z + y; // 				//100 ( x[i+1] - x[i]^2 )^2 + (x[i]-1 )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
 		    double sum_a = 0, sum_b = 0;
