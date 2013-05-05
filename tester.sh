@@ -34,7 +34,7 @@ fi
 javac *.java
 
 
-for funct in "${ITER[@]}"
+for iter in "${ITER[@]}"
 do
   for ntopo in "${NEIGHBORHOOD_TOPOLOGY[@]}"
   do  
@@ -44,7 +44,7 @@ do
       do
 	for size in "${SWARM_SIZE[@]}"
 	do
-          for iter in "${FUNCTION[@]}"
+          for funct in "${FUNCTION[@]}"
 	  do
 	    for try in {0..50}
             do 
