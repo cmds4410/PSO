@@ -23,7 +23,7 @@ ITER=2000
 
 DIMENSIONS=30
 
-OUTFILE="./testresults"
+OUTFILE="./testresults.csv"
 
 ##if $outfile exists already, wipe it out and recreate it
 if [ -f $OUTFILE ]; then
@@ -43,10 +43,10 @@ do
       do
         for funct in "${FUNCTION[@]}"
         do
-          for try in {0..50}
+          for try in {0..1}
           do 
-            echo "$ntopo, $inclme, $struct, $size, $funct, $DIMENSIONS, $try\c" >> testresults
-            #echo java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
+            echo "$ntopo, $inclme, $struct, $size, $funct, $try, \c" >> $OUTFILE
+            java PSO $ntopo $inclme $struct $size $ITER $funct $DIMENSIONS >> $OUTFILE
             echo >> testresults
           done
         done

@@ -41,6 +41,6 @@ public class PSO
             System.out.print(s.getBestVal(i)+",");
 		}
 
-		System.out.println(s.getBestVal(NUM_ITER-1) + "," + s.getStdDev());
+		System.out.print(s.getBestVal(NUM_ITER-1) + "," + s.getStdDev());
 	}
 }
