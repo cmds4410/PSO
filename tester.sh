@@ -47,7 +47,7 @@ do
           do 
             echo "$ntopo, $inclme, $struct, $size, $funct, $try, \c" >> $OUTFILE
             java PSO $ntopo $inclme $struct $size $ITER $funct $DIMENSIONS >> $OUTFILE
-            echo >> testresults
+            echo >> $OUTFILE
           done
         done
       done
