@@ -19,7 +19,7 @@ SWARM_SIZE=(9 36 49 100)
 
 FUNCTION=(sphere rosenbrock griewank ackley rastrigin)
 
-ITER=2000
+ITER=(2000 5000)
 
 DIMENSIONS=30
 
@@ -33,21 +33,25 @@ fi
 
 javac *.java
 
-for ntopo in "${NEIGHBORHOOD_TOPOLOGY[@]}"
-do  
-  for inclme in "${INCLUDE_SELF[@]}"
-  do
-    for struct in "${INFLUENCE_STRUCTURE[@]}"
+
+for funct in "${ITER[@]}"
+do
+  for ntopo in "${NEIGHBORHOOD_TOPOLOGY[@]}"
+  do  
+    for inclme in "${INCLUDE_SELF[@]}"
     do
-      for size in "${SWARM_SIZE[@]}"
+      for struct in "${INFLUENCE_STRUCTURE[@]}"
       do
-        for funct in "${FUNCTION[@]}"
-        do
-          for try in {0..50}
-          do 
-            echo "$ntopo, $inclme, $struct, $size, $funct, $try, \c" >> $OUTFILE
-            java PSO $ntopo $inclme $struct $size $ITER $funct $DIMENSIONS >> $OUTFILE
-            echo >> $OUTFILE
+	for size in "${SWARM_SIZE[@]}"
+	do
+          for iter in "${FUNCTION[@]}"
+	  do
+	    for try in {0..50}
+            do 
+		echo -n "$ntopo, $inclme, $struct, $size, $iter, $funct, $try, " >> $OUTFILE
+		java PSO $ntopo $inclme $struct $size $iter $funct $DIMENSIONS >> $OUTFILE
+		echo >> $OUTFILE
+	    done
           done
         done
       done
