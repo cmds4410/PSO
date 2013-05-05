@@ -258,7 +258,7 @@ public class Swarm
 				fitness += z + y; // 				//100 ( x[i+1] - x[i]^2 )^2 + (x[i]-1 )^2
 			}
 		}else if(this.function.equalsIgnoreCase("griewank")){
-		    double sum_a = 0, sum_b = 0;
+		    double sum_a = 0, sum_b = 1;
 		    for (int i=0 ; i <pos.size() ; i++) {
 				sum_a+=Math.pow(pos.get(i),2);
 			}
