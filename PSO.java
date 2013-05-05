@@ -31,9 +31,6 @@ public class PSO
 		FUNCTION = args[5];
 		DIMENSIONS = Integer.parseInt(args[6]);
 
-		//time the program's execution
-		double startTime = System.currentTimeMillis();
-
 		//create and randomize all of the individuals in the swarm, using params specified on command line
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS, NUM_ITER);
 
@@ -41,13 +38,7 @@ public class PSO
 		
 		for(int i = 0; i < NUM_ITER; i++){
 			s.update();
-            System.out.println("global best at iteration " + i + " is " + s.getBestVal(i));
+            System.out.print(s.getBestVal(i)+",");
 		}
-        
-		double t = (System.currentTimeMillis() - startTime)/1000;
-
-		//System.out.println("The algorithm is complete. The best value found was " + s.getBestVal(NUM_ITER-1));
-
-		//System.out.println("Time to completion: " + t + "sec");
 	}
 }

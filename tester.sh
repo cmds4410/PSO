@@ -9,9 +9,9 @@
 
 #In each of these arrays, if we decide we don't want to vary it at all, simply remove all but one element of the array
 
-NEIGHBORHOOD_TOPOLOGY=(gbest ring von_neumann)
+NEIGHBORHOOD_TOPOLOGY=(gbest ring von_neumann random)
 
-INCLUDE_SELF=(0 1)
+INCLUDE_SELF=(no yes)
 
 INFLUENCE_STRUCTURE=(NORMAL FIPS)
 
@@ -47,6 +47,7 @@ do
           do 
             echo "$ntopo, $inclme, $struct, $size, $funct, $DIMENSIONS, $try\c" >> testresults
             #echo java PSO $ntopo $inclme $struct $size $iter $funct $dim $try >> testresults
+            echo >> testresults
           done
         done
       done

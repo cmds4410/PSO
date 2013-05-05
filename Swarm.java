@@ -103,7 +103,7 @@ public class Swarm
 				}else if(this.function.equalsIgnoreCase("rastrigin")){
 					position.add(j, rand.nextDouble() * RASTRIGIN_RANGE + MIN_INIT_POSITION_RASTRIGIN);
 				}else {
-					System.out.println("invalid function.");
+					//System.out.println("invalid function.");
 				}
 				velocity.add(j, rand.nextDouble() * MAX_VELOCITY);
 				velocity.set(j, (MIN_VELOCITY + (MAX_VELOCITY - MIN_VELOCITY) * rand.nextDouble()));
@@ -282,7 +282,7 @@ public class Swarm
 				fitness += Math.pow(x_i, 2) - 10*Math.cos(2*Math.PI*x_i) + 10;
 			}
 		}else{
-			System.out.println("invalid function.");
+			//System.out.println("invalid function.");
 		}
 		return fitness;
 	}
@@ -306,13 +306,13 @@ public class Swarm
 			// if (object exists to the right of p) -> add it
 			// else (object is last particle, so add the first particle in this.particles)
 			
-			for (int i=0; i<this.particles.size(); i++){
+			//for (int i=0; i<this.particles.size(); i++){
 				int lastIndex = this.particles.size()-1;
-				if(i==0) p.addNeighbor(this.particles.get(lastIndex));
-				else p.addNeighbor(this.particles.get(i-1));
-				if(i==lastIndex) p.addNeighbor(this.particles.get(0));
-				else p.addNeighbor(this.particles.get(i+1));
-			}
+				if(p.getIndex()==0) p.addNeighbor(this.particles.get(lastIndex));
+				else p.addNeighbor(this.particles.get(p.getIndex()-1));
+				if(p.getIndex()==lastIndex) p.addNeighbor(this.particles.get(0));
+				else p.addNeighbor(this.particles.get(p.getIndex()+1));
+			//}
 		}
 		else if (this.topology.equalsIgnoreCase("von_neumann")){
             // particles are imagined to be in a grid (that wraps around in both directions)
@@ -354,7 +354,7 @@ public class Swarm
                 
             } catch (Exception e) {
                 //catch an error resulting from passing less velocity/position components than expected
-                System.out.println("pRow not set for some odd reason");
+                //System.out.println("pRow not set for some odd reason");
                 System.exit(0);
             }
 	    }
@@ -382,7 +382,7 @@ public class Swarm
 	    for (Particle p : this.particles)
 	    {
 	        double particleBest = p.getPBest();
-            System.out.println("pbest of " + i + " = " + particleBest + " currVal of " + i + " = " + p.getVal());
+            //System.out.println("pbest of " + i + " = " + particleBest + " currVal of " + i + " = " + p.getVal());
 	        if (particleBest < this.globalBest[iteration])
 	            this.globalBest[iteration] = particleBest;
                                i++;
