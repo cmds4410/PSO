@@ -380,7 +380,7 @@ public class Swarm
 	
 	public double getBestVal(int iteration)
 	{
-	    this.globalBest[iteration] = 10000000;
+	    this.globalBest[iteration] = Double.MAX_VALUE;
         int i = 0;
 	    for (Particle p : this.particles)
 	    {
