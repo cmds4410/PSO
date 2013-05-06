@@ -53,7 +53,8 @@ public class Swarm
 	//just for ease of use in calculating the constriction factor
   	private double phisum = phi1 + phi2;
   	
-  	public  double constrictionFactor = 2.0 / (phisum - 2.0 + Math.sqrt(phisum*phisum - 4.0*phisum));
+  	// public  double constrictionFactor = 2.0 / (phisum - 2.0 + Math.sqrt(phisum*phisum - 4.0*phisum));
+	public  double constrictionFactor = 1;
 	
 	private Random rand = new Random();
 	
