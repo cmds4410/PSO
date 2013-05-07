@@ -12,16 +12,16 @@ public class PSO
 	public static int NUM_ITER;
 	public static String FUNCTION;
 	public static int DIMENSIONS;
-  
+    
 	public static void main(String args[]){
 	    
 	    // check if user entered incorrect args
 	    if(args.length != 7)
-            {
-                System.out.println("Incorrect args! " + args.length);
-                System.out.println("Input: NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, NUM_ITER, FUNCTION, DIMENSIONS");
-                System.exit(0);
-            }
+        {
+            System.out.println("Incorrect args! you entered " + args.length + " and you need 7");
+            System.out.println("Input: NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, NUM_ITER, FUNCTION, DIMENSIONS");
+            System.exit(0);
+        }
 	    String top = args[0];
 		NEIGHBORHOOD_TOPOLOGY = top;
 		INCLUDE_SELF = args[1];
@@ -30,17 +30,17 @@ public class PSO
 		NUM_ITER = Integer.parseInt(args[4]);
 		FUNCTION = args[5];
 		DIMENSIONS = Integer.parseInt(args[6]);
-
+        
 		//create and randomize all of the individuals in the swarm, using params specified on command line
 		Swarm s = new Swarm (NEIGHBORHOOD_TOPOLOGY, INCLUDE_SELF, INFLUENCE_STRUCTURE, SWARM_SIZE, FUNCTION, DIMENSIONS, NUM_ITER);
-
+        
 		//actually run the algorithm
 		
 		for(int i = 0; i < NUM_ITER; i++){
 			s.update();
             System.out.print(s.getBestVal(i)+",");
 		}
-
-		System.out.print(s.getBestVal(NUM_ITER-1) + "," + s.getStdDev());
+        
+		System.out.print(s.getStdDev());
 	}
 }
